@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-02-17
+
+### Added
+- **AQUA COMMUNIS sprint** — shared syllabus service
+- `koinonia_db.syllabus_service` module with `generate_learning_path()` — extracted from community-hub for shared use
+- `generate_learning_path` re-exported from `koinonia_db.__init__`
+- 3 new tests: service importable, ORGAN_MAP validation, top-level re-export
+
 ## [0.3.0] - 2026-02-17
 
 ### Added
