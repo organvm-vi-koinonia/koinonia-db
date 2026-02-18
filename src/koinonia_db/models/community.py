@@ -8,7 +8,7 @@ from typing import Optional
 from sqlalchemy import ForeignKey, String, Text, ARRAY, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from koinonia_db.models.base import Base, TimestampMixin
+from koinonia_db.models.base import Base
 
 
 class Event(Base):
