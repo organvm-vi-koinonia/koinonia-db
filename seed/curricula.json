@@ -1,0 +1,297 @@
+{
+  "description": "Pre-built reading group curricula with session plans",
+  "curricula": [
+    {
+      "title": "Foundations of Recursive Systems",
+      "theme": "recursive-systems",
+      "organ_focus": "ORGAN-I",
+      "duration_weeks": 8,
+      "description": "An 8-week exploration of recursive, self-referential, and strange-loop systems — from formal logic through creative practice. Draws on foundational texts and ORGAN-I project artifacts to build intuition for how recursion generates novelty.",
+      "sessions": [
+        {
+          "week": 1,
+          "title": "Strange Loops and Tangled Hierarchies",
+          "readings": ["geb-ch1", "geb-ch6"],
+          "questions": [
+            "What makes a loop 'strange' vs merely circular?",
+            "How does crossing levels of abstraction generate meaning?",
+            "Can you identify a strange loop in your own creative practice?"
+          ],
+          "activities": ["Map a strange loop in a system you know well — draw the levels and the cross-level interaction"]
+        },
+        {
+          "week": 2,
+          "title": "Self-Reference in Formal Systems",
+          "readings": ["geb-ch13", "recursive-engine-readme"],
+          "questions": [
+            "How does Gödel's incompleteness theorem relate to creative systems?",
+            "What does the recursive-engine's generative entity model gain from self-reference?",
+            "Where does self-reference become pathological rather than productive?"
+          ],
+          "activities": ["Write a 200-word description of your own work that references itself"]
+        },
+        {
+          "week": 3,
+          "title": "Levels of Learning and Meta-Cognition",
+          "readings": ["bateson-ecology-ch4", "cog-init-readme"],
+          "questions": [
+            "What are Bateson's three levels of learning and why does Level III matter?",
+            "How does the cognitive-archaeology approach map to Bateson's levels?",
+            "What would it mean for a system to 'learn to learn to learn'?"
+          ],
+          "activities": ["Identify one thing you learned this week, then identify what you learned about learning from that experience"]
+        },
+        {
+          "week": 4,
+          "title": "Ontological Foundations",
+          "readings": ["organon-noumenon-readme", "radix-recursiva-readme"],
+          "questions": [
+            "What is the boundary between what can be formalized and what resists formalization?",
+            "How does the solve-coagula process relate to analysis and synthesis?",
+            "What does it mean for an ontology to be 'generative'?"
+          ],
+          "activities": ["Decompose a concept you care about using the solve-coagula pattern: dissolve it into parts, then recombine in a new way"]
+        },
+        {
+          "week": 5,
+          "title": "Autopoiesis and Self-Producing Systems",
+          "readings": ["maturana-varela-ch1", "nal-readme"],
+          "questions": [
+            "What distinguishes an autopoietic system from a merely self-replicating one?",
+            "How do narratological algorithmic lenses treat narrative as self-producing?",
+            "Can a software system be genuinely autopoietic?"
+          ],
+          "activities": ["Design a small system (on paper) that maintains its own boundary — what does it include and exclude?"]
+        },
+        {
+          "week": 6,
+          "title": "Cybernetics and Feedback",
+          "readings": ["wiener-cybernetics-ch1", "system-governance-readme"],
+          "questions": [
+            "How do positive and negative feedback loops shape system behavior?",
+            "What role does feedback play in the organ system's governance model?",
+            "Where have you seen feedback loops create unexpected emergent behavior?"
+          ],
+          "activities": ["Trace a feedback loop in the organvm system from ORGAN-I through to ORGAN-III and back"]
+        },
+        {
+          "week": 7,
+          "title": "Recursive Art and Generative Practice",
+          "readings": ["hofstadter-surfaces-ch2", "art-from-aree-readme"],
+          "questions": [
+            "How does recursion in art differ from recursion in mathematics?",
+            "What aesthetic qualities emerge from recursive processes that don't emerge from linear ones?",
+            "How does the ORGAN-I to ORGAN-II pipeline transform theory into art?"
+          ],
+          "activities": ["Create something (text, image, sound, code) using a recursive process — share and discuss"]
+        },
+        {
+          "week": 8,
+          "title": "Synthesis: Recursion as World-Making",
+          "readings": ["geb-ch20", "meta-organvm-profile-readme"],
+          "questions": [
+            "How does the eight-organ system itself embody recursive principles?",
+            "What does it mean to build a 'world' through recursive processes?",
+            "Where do you want to take recursive thinking next in your own practice?"
+          ],
+          "activities": ["Write a one-page reflection on how your understanding of recursion has changed over these 8 weeks"]
+        }
+      ]
+    },
+    {
+      "title": "Building in Public: The AI-Conductor Method",
+      "theme": "building-in-public",
+      "organ_focus": "ORGAN-V",
+      "duration_weeks": 6,
+      "description": "A 6-week study of transparent development methodology, drawing on ORGAN-V essays and external references. Examines the AI-conductor model, POSSE distribution, and the ethics of building with AI in public.",
+      "sessions": [
+        {
+          "week": 1,
+          "title": "Why Build in Public?",
+          "readings": ["essay-04-building-in-public", "eghbal-working-in-public-ch1"],
+          "questions": [
+            "What are the risks and rewards of transparent development?",
+            "How does 'building in public' differ from open source?",
+            "What should remain private even in a public-first approach?"
+          ],
+          "activities": ["Draft a one-paragraph public commitment for a project you're working on"]
+        },
+        {
+          "week": 2,
+          "title": "The Conductor Model",
+          "readings": ["essay-09-uniform-quality", "essay-01-orchestrate"],
+          "questions": [
+            "What distinguishes conducting from delegating?",
+            "How does the 80/20 principle (machine volume / human curation) actually work in practice?",
+            "What skills does an AI conductor need that a traditional developer doesn't?"
+          ],
+          "activities": ["Conduct a small task using AI: define scope, set constraints, direct execution, curate output"]
+        },
+        {
+          "week": 3,
+          "title": "Governance as Composition",
+          "readings": ["essay-02-governance", "conway-law-paper"],
+          "questions": [
+            "How does Conway's Law apply to AI-conducted systems?",
+            "What makes governance 'compositional' rather than 'restrictive'?",
+            "How do you balance structure with creative freedom?"
+          ],
+          "activities": ["Write 3 governance rules for a hypothetical creative project — justify each one"]
+        },
+        {
+          "week": 4,
+          "title": "Portfolio as Practice",
+          "readings": ["essay-03-portfolio", "essay-05-five-years"],
+          "questions": [
+            "How does a portfolio tell a story that individual projects cannot?",
+            "What does a 5-year vision contribute to daily practice?",
+            "How do you curate your own work for public consumption?"
+          ],
+          "activities": ["Organize 5 of your projects into a narrative arc — what story do they tell together?"]
+        },
+        {
+          "week": 5,
+          "title": "Distribution and Reach",
+          "readings": ["essay-07-dependency-integrity", "indieweb-posse-docs"],
+          "questions": [
+            "What is POSSE and why does it matter for creative independence?",
+            "How does dependency integrity relate to content distribution?",
+            "What platforms should you own vs. syndicate to?"
+          ],
+          "activities": ["Set up a POSSE workflow for one piece of content: publish on your own site, syndicate elsewhere"]
+        },
+        {
+          "week": 6,
+          "title": "Ethics of AI-Conducted Creation",
+          "readings": ["essay-10-uniform-quality-at-scale", "essay-06-ci-as-immune"],
+          "questions": [
+            "When does AI-conducted work become misattribution?",
+            "How should credit work in conductor-model projects?",
+            "What are the environmental and social costs of high-volume AI creation?",
+            "How do you maintain authenticity at scale?"
+          ],
+          "activities": ["Write your own attribution policy for AI-conducted work — what gets credited to whom and why?"]
+        }
+      ]
+    },
+    {
+      "title": "From Theory to Product: The Organ Pipeline",
+      "theme": "cross-organ",
+      "organ_focus": "cross-organ",
+      "duration_weeks": 10,
+      "description": "A 10-week cross-organ journey tracing ideas from theoretical inception (ORGAN-I) through creative expression (ORGAN-II) to practical product (ORGAN-III), governed by ORGAN-IV and documented by ORGAN-V. The capstone curriculum of the koinonia reading group program.",
+      "sessions": [
+        {
+          "week": 1,
+          "title": "The Eight-Organ Architecture",
+          "readings": ["meta-organvm-profile", "essay-01-orchestrate"],
+          "questions": [
+            "Why eight organs and not five or twelve?",
+            "How does the organ metaphor shape what gets built?",
+            "What would you add or remove from this architecture?"
+          ],
+          "activities": ["Draw your own version of a multi-organ creative system — what are your organs?"]
+        },
+        {
+          "week": 2,
+          "title": "ORGAN-I: The Theoretical Root",
+          "readings": ["recursive-engine-readme", "organon-noumenon-readme"],
+          "questions": [
+            "How does theory generate practice in the organvm model?",
+            "What makes a 'theoretical root' different from an 'idea'?",
+            "How do you cultivate theoretical foundations in your own work?"
+          ],
+          "activities": ["Identify the theoretical root of a product you use daily — what ideas made it possible?"]
+        },
+        {
+          "week": 3,
+          "title": "ORGAN-II: Theory Becomes Art",
+          "readings": ["metasystem-master-readme", "alchemical-synthesizer-readme"],
+          "questions": [
+            "What happens in the transition from theory to creative expression?",
+            "How does the metasystem-master architecture bridge abstract ideas and concrete artifacts?",
+            "When does creative interpretation become misinterpretation?"
+          ],
+          "activities": ["Take a theoretical concept and express it in a non-theoretical medium — code, drawing, music, prose"]
+        },
+        {
+          "week": 4,
+          "title": "ORGAN-III: Art Becomes Product",
+          "readings": ["public-record-data-scrapper-readme", "fetch-familiar-friends-readme"],
+          "questions": [
+            "What gets lost and what gets gained when creative work becomes a product?",
+            "How do user needs reshape artistic vision?",
+            "What makes a product 'ergonomic' in the organ-system sense?"
+          ],
+          "activities": ["Identify a feature in a product that clearly came from an artistic or theoretical insight"]
+        },
+        {
+          "week": 5,
+          "title": "ORGAN-IV: Governance as Enablement",
+          "readings": ["orchestration-start-here-readme", "essay-02-governance"],
+          "questions": [
+            "How does governance enable rather than constrain creativity?",
+            "What governance structures are present in open source projects you admire?",
+            "How do you govern your own creative process?"
+          ],
+          "activities": ["Audit the governance of a project you contribute to — what rules exist, which are enforced, which are implicit?"]
+        },
+        {
+          "week": 6,
+          "title": "ORGAN-V: Making the Process Visible",
+          "readings": ["essay-04-building-in-public", "essay-03-portfolio"],
+          "questions": [
+            "Why does making the process visible change the process itself?",
+            "How does documentation serve as both record and creative act?",
+            "What are the limits of transparency?"
+          ],
+          "activities": ["Document one hour of your creative process in real-time — what did you notice?"]
+        },
+        {
+          "week": 7,
+          "title": "ORGAN-VI: Community as Infrastructure",
+          "readings": ["salon-archive-readme", "reading-group-curriculum-readme"],
+          "questions": [
+            "How does community infrastructure differ from social media?",
+            "What makes a salon different from a meeting?",
+            "How do reading groups create knowledge that individuals cannot?"
+          ],
+          "activities": ["Design a salon session for a topic you care about — format, readings, questions, activities"]
+        },
+        {
+          "week": 8,
+          "title": "ORGAN-VII: From Creation to Proclamation",
+          "readings": ["content-distribution-readme", "social-automation-readme"],
+          "questions": [
+            "How does distribution shape what gets created?",
+            "What is the POSSE principle and why does it matter for creator independence?",
+            "How do you balance reach with authenticity?"
+          ],
+          "activities": ["Map your current content distribution — where does your work go and who controls each channel?"]
+        },
+        {
+          "week": 9,
+          "title": "Cross-Organ Dependencies",
+          "readings": ["essay-07-dependency-integrity", "governance-rules-json"],
+          "questions": [
+            "How do dependencies between organs create both strength and fragility?",
+            "What happens when one organ fails or stalls?",
+            "How does the registry-v2 system track and validate these relationships?"
+          ],
+          "activities": ["Draw a dependency map for a multi-component project you work on — identify the critical paths"]
+        },
+        {
+          "week": 10,
+          "title": "Synthesis: Building Your Own System",
+          "readings": ["essay-05-five-years", "meta-organvm-profile"],
+          "questions": [
+            "What would your own multi-organ creative system look like?",
+            "What has this curriculum changed about how you think about creative infrastructure?",
+            "Where do you go from here?"
+          ],
+          "activities": ["Present a 5-minute pitch for your own creative system — what organs, what pipeline, what governance?"]
+        }
+      ]
+    }
+  ]
+}

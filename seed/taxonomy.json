@@ -1,0 +1,54 @@
+{
+  "description": "Eight-organ taxonomy tree for salon content classification",
+  "nodes": [
+    {"slug": "i-theoria", "label": "ORGAN-I Theoria", "organ_id": 1, "description": "Theory, recursive systems, ontology, epistemology", "children": [
+      {"slug": "i-recursive-systems", "label": "Recursive Systems", "description": "Self-referential architectures, strange loops, generative recursion"},
+      {"slug": "i-ontology", "label": "Ontology", "description": "Being, existence, entity classification, organon-noumenon"},
+      {"slug": "i-epistemology", "label": "Epistemology", "description": "Knowledge structures, cognitive archaeology, epistemic engines"},
+      {"slug": "i-cognitive-archaeology", "label": "Cognitive Archaeology", "description": "Excavation of thought patterns, tribunal processes"},
+      {"slug": "i-alchemical-frameworks", "label": "Alchemical Frameworks", "description": "Solve-coagula processes, sema-metra, transmutation logic"}
+    ]},
+    {"slug": "ii-poiesis", "label": "ORGAN-II Poiesis", "organ_id": 2, "description": "Creative production, generative arts, performance", "children": [
+      {"slug": "ii-generative-music", "label": "Generative Music", "description": "Algorithmic composition, synthesis, audio bridges"},
+      {"slug": "ii-visual-art", "label": "Visual Art", "description": "Generative visuals, interactive installations, krypto-velamen"},
+      {"slug": "ii-performance", "label": "Performance", "description": "Live coding, theatre dialogue, choreographic interfaces"},
+      {"slug": "ii-interactive-installation", "label": "Interactive Installation", "description": "Embodied computing, sensor-driven art, spatial media"},
+      {"slug": "ii-ai-collaboration", "label": "AI Collaboration", "description": "Human-AI co-creation, conductor model, council-coliseum"}
+    ]},
+    {"slug": "iii-ergon", "label": "ORGAN-III Ergon", "organ_id": 3, "description": "Practical works, products, engineering", "children": [
+      {"slug": "iii-saas-products", "label": "SaaS Products", "description": "Commercial applications, subscription platforms"},
+      {"slug": "iii-data-tools", "label": "Data Tools", "description": "Scraping, analysis, public records, invisible ledger"},
+      {"slug": "iii-gaming", "label": "Gaming", "description": "Chess variants, RPG systems, block warfare, gamified coaching"},
+      {"slug": "iii-social-platforms", "label": "Social Platforms", "description": "Community apps, dating, social discovery"},
+      {"slug": "iii-commerce", "label": "Commerce", "description": "Trading platforms, real estate, perpetual futures"}
+    ]},
+    {"slug": "iv-taxis", "label": "ORGAN-IV Taxis", "organ_id": 4, "description": "Order, governance, orchestration", "children": [
+      {"slug": "iv-governance", "label": "Governance", "description": "Rules, constitution, organ compliance"},
+      {"slug": "iv-orchestration", "label": "Orchestration", "description": "Workflow automation, CI/CD, system coordination"},
+      {"slug": "iv-multi-agent-systems", "label": "Multi-Agent Systems", "description": "Agentic AI, swarm intelligence, task delegation"},
+      {"slug": "iv-dependency-management", "label": "Dependency Management", "description": "Cross-organ dependencies, validation, registry"}
+    ]},
+    {"slug": "v-logos", "label": "ORGAN-V Logos", "organ_id": 5, "description": "Articulation, methodology, public process", "children": [
+      {"slug": "v-essays", "label": "Essays", "description": "Meta-system essays, reflective writing"},
+      {"slug": "v-methodology", "label": "Methodology", "description": "Building-in-public process, conductor method"},
+      {"slug": "v-building-in-public", "label": "Building in Public", "description": "Transparent development, POSSE distribution"},
+      {"slug": "v-case-studies", "label": "Case Studies", "description": "Portfolio analysis, project retrospectives"}
+    ]},
+    {"slug": "vi-koinonia", "label": "ORGAN-VI Koinonia", "organ_id": 6, "description": "Community, fellowship, collaborative learning", "children": [
+      {"slug": "vi-salons", "label": "Salons", "description": "Structured discussions, deep dives, Socratic dialogues"},
+      {"slug": "vi-reading-groups", "label": "Reading Groups", "description": "Curated curricula, discussion guides, shared study"},
+      {"slug": "vi-mentorship", "label": "Mentorship", "description": "Adaptive syllabi, personalized learning paths"},
+      {"slug": "vi-collaborative-ideation", "label": "Collaborative Ideation", "description": "Co-creation sessions, brainstorming, design sprints"}
+    ]},
+    {"slug": "vii-kerygma", "label": "ORGAN-VII Kerygma", "organ_id": 7, "description": "Proclamation, distribution, outreach", "children": [
+      {"slug": "vii-distribution", "label": "Distribution", "description": "POSSE syndication, cross-platform publishing"},
+      {"slug": "vii-social-automation", "label": "Social Automation", "description": "Mastodon/Discord bots, content scheduling"},
+      {"slug": "vii-content-strategy", "label": "Content Strategy", "description": "Audience building, narrative positioning"}
+    ]},
+    {"slug": "viii-meta", "label": "VIII Meta-Organvm", "organ_id": 8, "description": "Umbrella coordination, cross-organ synthesis", "children": [
+      {"slug": "viii-registry", "label": "Registry", "description": "Repo registry, status tracking, metadata"},
+      {"slug": "viii-constitution", "label": "Constitution", "description": "System-wide rules, launch criteria, sprint governance"},
+      {"slug": "viii-cross-organ", "label": "Cross-Organ Coordination", "description": "Inter-organ dependencies, shared infrastructure"}
+    ]}
+  ]
+}
