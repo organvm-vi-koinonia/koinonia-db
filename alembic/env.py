@@ -20,9 +20,9 @@ def get_url() -> str:
     url = os.environ.get("DATABASE_URL", "")
     if not url:
         raise RuntimeError("DATABASE_URL must be set for migrations")
-    # Alembic uses sync engine
-    if "+psycopg" in url:
-        url = url.replace("postgresql+psycopg://", "postgresql://")
+    # Use psycopg3 sync driver (not psycopg2)
+    if url.startswith("postgresql://") and "+psycopg" not in url:
+        url = url.replace("postgresql://", "postgresql+psycopg://", 1)
     return url
 
 
