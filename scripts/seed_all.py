@@ -1,12 +1,8 @@
 #!/usr/bin/env python3
 """Master seeding script for ORGAN-VI koinonia Neon database.
 
-Seeds all tables from koinonia-db/seed/ JSON files:
-  - taxonomy nodes (40+ nodes across 8 organs)
-  - salon sessions with participants and segments
-  - reading entries (39 curated sources)
-  - curricula with sessions, questions, guides, and entry linkages
-  - community events and contributors
+Seeds all tables from koinonia-db/seed/ JSON files using UPSERT (ON CONFLICT DO UPDATE)
+to ensure idempotent seeding — running twice produces the same PKs.
 
 Usage:
     DATABASE_URL=postgresql://... python scripts/seed_all.py
@@ -21,9 +17,9 @@ from datetime import date, datetime
 from pathlib import Path
 
 from sqlalchemy import create_engine, text
+from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.orm import Session
 
-# Add the package to path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from koinonia_db.models.salon import (
@@ -59,130 +55,156 @@ def get_engine():
     return create_engine(url, echo=False)
 
 
-def clear_tables(session: Session) -> None:
-    """Delete existing seed data to allow re-seeding."""
-    for table in [
-        "community.contributions",
-        "community.contributors",
-        "community.events",
-        "reading.guides",
-        "reading.discussion_questions",
-        "reading.session_entries",
-        "reading.entries",
-        "reading.sessions",
-        "reading.curricula",
-        "salons.segments",
-        "salons.participants",
-        "salons.sessions",
-        "salons.taxonomy_nodes",
-    ]:
-        session.execute(text(f"DELETE FROM {table}"))
-    session.commit()
-    print("  Cleared existing data.")
-
-
 def seed_taxonomy(session: Session) -> dict[str, int]:
-    """Seed taxonomy nodes. Returns slug->id map."""
+    """Seed taxonomy nodes with UPSERT on slug. Returns slug->id map."""
     data = json.loads((SEED_DIR / "taxonomy.json").read_text())
     slug_map: dict[str, int] = {}
 
     for root in data["nodes"]:
-        node = TaxonomyNodeRow(
+        stmt = pg_insert(TaxonomyNodeRow).values(
             slug=root["slug"],
             label=root["label"],
             organ_id=root.get("organ_id"),
             description=root["description"],
             parent_id=None,
-        )
-        session.add(node)
-        session.flush()
-        slug_map[root["slug"]] = node.id
+        ).on_conflict_do_update(
+            index_elements=["slug"],
+            set_={"label": root["label"], "description": root["description"]},
+        ).returning(TaxonomyNodeRow.id)
+        root_id = session.execute(stmt).scalar_one()
+        slug_map[root["slug"]] = root_id
 
         for child in root.get("children", []):
-            child_node = TaxonomyNodeRow(
+            stmt = pg_insert(TaxonomyNodeRow).values(
                 slug=child["slug"],
                 label=child["label"],
                 organ_id=root.get("organ_id"),
                 description=child["description"],
-                parent_id=node.id,
-            )
-            session.add(child_node)
-            session.flush()
-            slug_map[child["slug"]] = child_node.id
+                parent_id=root_id,
+            ).on_conflict_do_update(
+                index_elements=["slug"],
+                set_={"label": child["label"], "description": child["description"], "parent_id": root_id},
+            ).returning(TaxonomyNodeRow.id)
+            child_id = session.execute(stmt).scalar_one()
+            slug_map[child["slug"]] = child_id
 
     session.commit()
-    print(f"  Taxonomy: {len(slug_map)} nodes seeded.")
+    print(f"  Taxonomy: {len(slug_map)} nodes upserted.")
     return slug_map
 
 
 def seed_salons(session: Session) -> list[int]:
-    """Seed sample salon sessions. Returns list of session IDs."""
+    """Seed sample salon sessions. Uses title as natural key for upsert."""
     data = json.loads((SEED_DIR / "sample_sessions.json").read_text())
     ids: list[int] = []
 
     for s in data["sessions"]:
-        row = SalonSessionRow(
+        dt = s["date"]
+        if isinstance(dt, str):
+            dt = datetime.fromisoformat(dt.replace("Z", "+00:00")).date()
+
+        # Upsert session by title
+        stmt = pg_insert(SalonSessionRow).values(
             title=s["title"],
-            date=datetime.fromisoformat(s["date"].replace("Z", "+00:00")).date()
-            if isinstance(s["date"], str)
-            else s["date"],
+            date=dt,
             format=s["format"],
             facilitator=s.get("facilitator"),
             notes=s.get("notes", ""),
             organ_tags=s.get("organ_tags", []),
+        ).on_conflict_do_update(
+            constraint=None,
+            index_elements=None,
+            set_={"notes": s.get("notes", ""), "organ_tags": s.get("organ_tags", [])},
         )
-        session.add(row)
-        session.flush()
-        ids.append(row.id)
+        # Sessions don't have a unique constraint on title, so use insert-or-fetch
+        existing = session.execute(
+            text("SELECT id FROM salons.sessions WHERE title = :t"),
+            {"t": s["title"]},
+        ).scalar_one_or_none()
 
-        for p in s.get("participants", []):
-            session.add(
-                Participant(
-                    session_id=row.id,
+        if existing:
+            session.execute(
+                text("UPDATE salons.sessions SET notes = :n, organ_tags = :ot WHERE id = :id"),
+                {"n": s.get("notes", ""), "ot": s.get("organ_tags", []), "id": existing},
+            )
+            row_id = existing
+        else:
+            row = SalonSessionRow(
+                title=s["title"], date=dt, format=s["format"],
+                facilitator=s.get("facilitator"), notes=s.get("notes", ""),
+                organ_tags=s.get("organ_tags", []),
+            )
+            session.add(row)
+            session.flush()
+            row_id = row.id
+
+            for p in s.get("participants", []):
+                session.add(Participant(
+                    session_id=row_id,
                     name=p["name"],
                     role=p.get("role", "participant"),
                     consent_given=p.get("consent_given", False),
-                )
-            )
-
-        for seg in s.get("segments", []):
-            session.add(
-                Segment(
-                    session_id=row.id,
+                ))
+            for seg in s.get("segments", []):
+                session.add(Segment(
+                    session_id=row_id,
                     speaker=seg["speaker"],
                     text=seg["text"],
                     start_seconds=seg["start_seconds"],
                     end_seconds=seg["end_seconds"],
                     confidence=seg.get("confidence", 0.0),
-                )
-            )
+                ))
+
+        ids.append(row_id)
 
     session.commit()
-    print(f"  Salons: {len(ids)} sessions seeded ({sum(len(s.get('segments', [])) for s in data['sessions'])} segments, {sum(len(s.get('participants', [])) for s in data['sessions'])} participants).")
+    print(f"  Salons: {len(ids)} sessions upserted.")
     return ids
 
 
 def seed_reading_entries(session: Session) -> dict[str, int]:
-    """Seed reading entries. Returns key->id map."""
+    """Seed reading entries with UPSERT on title+author composite."""
     data = json.loads((SEED_DIR / "reading_lists.json").read_text())
     key_map: dict[str, int] = {}
 
     for entry in data["entries"]:
-        row = Entry(
-            title=entry["title"],
-            author=entry["author"],
-            source_type=entry.get("source_type", "book"),
-            url=entry.get("url"),
-            pages=entry.get("pages"),
-            difficulty=entry.get("difficulty", "intermediate"),
-            organ_tags=entry.get("organ_tags", []),
-        )
-        session.add(row)
-        session.flush()
-        key_map[entry["key"]] = row.id
+        # Check for existing by title+author
+        existing = session.execute(
+            text("SELECT id FROM reading.entries WHERE title = :t AND author = :a"),
+            {"t": entry["title"], "a": entry["author"]},
+        ).scalar_one_or_none()
+
+        if existing:
+            session.execute(
+                text("""UPDATE reading.entries
+                        SET source_type = :st, url = :u, pages = :p, difficulty = :d, organ_tags = :ot
+                        WHERE id = :id"""),
+                {
+                    "st": entry.get("source_type", "book"),
+                    "u": entry.get("url"),
+                    "p": entry.get("pages"),
+                    "d": entry.get("difficulty", "intermediate"),
+                    "ot": entry.get("organ_tags", []),
+                    "id": existing,
+                },
+            )
+            key_map[entry["key"]] = existing
+        else:
+            row = Entry(
+                title=entry["title"],
+                author=entry["author"],
+                source_type=entry.get("source_type", "book"),
+                url=entry.get("url"),
+                pages=entry.get("pages"),
+                difficulty=entry.get("difficulty", "intermediate"),
+                organ_tags=entry.get("organ_tags", []),
+            )
+            session.add(row)
+            session.flush()
+            key_map[entry["key"]] = row.id
 
     session.commit()
-    print(f"  Reading entries: {len(key_map)} entries seeded.")
+    print(f"  Reading entries: {len(key_map)} entries upserted.")
     return key_map
 
 
@@ -196,6 +218,16 @@ def seed_curricula(session: Session, entry_map: dict[str, int]) -> list[int]:
     total_links = 0
 
     for c in data["curricula"]:
+        # Check for existing by title
+        existing = session.execute(
+            text("SELECT id FROM reading.curricula WHERE title = :t"),
+            {"t": c["title"]},
+        ).scalar_one_or_none()
+
+        if existing:
+            curriculum_ids.append(existing)
+            continue
+
         row = Curriculum(
             title=c["title"],
             theme=c["theme"],
@@ -218,37 +250,26 @@ def seed_curricula(session: Session, entry_map: dict[str, int]) -> list[int]:
             session.flush()
             total_sessions += 1
 
-            # Link reading entries
             for rkey in sess.get("readings", []):
                 if rkey in entry_map:
-                    session.add(
-                        SessionEntry(session_id=srow.id, entry_id=entry_map[rkey])
-                    )
+                    session.add(SessionEntry(session_id=srow.id, entry_id=entry_map[rkey]))
                     total_links += 1
 
-            # Discussion questions
             for q in sess.get("questions", []):
-                session.add(
-                    DiscussionQuestion(
-                        session_id=srow.id,
-                        question_text=q,
-                        category="deep_dive",
-                    )
-                )
+                session.add(DiscussionQuestion(
+                    session_id=srow.id, question_text=q, category="deep_dive",
+                ))
                 total_questions += 1
 
-            # Discussion guide
             questions = sess.get("questions", [])
             activities = sess.get("activities", [])
-            session.add(
-                Guide(
-                    session_id=srow.id,
-                    opening_questions=questions[:2],
-                    deep_dive_questions=questions[2:],
-                    activities=activities,
-                    closing_reflection=f"How has this session changed your understanding of {sess['title']}?",
-                )
-            )
+            session.add(Guide(
+                session_id=srow.id,
+                opening_questions=questions[:2],
+                deep_dive_questions=questions[2:],
+                activities=activities,
+                closing_reflection=f"How has this session changed your understanding of {sess['title']}?",
+            ))
             total_guides += 1
 
     session.commit()
@@ -260,18 +281,27 @@ def seed_curricula(session: Session, entry_map: dict[str, int]) -> list[int]:
 
 
 def seed_community(session: Session) -> None:
-    """Seed community events and contributors."""
-    # Contributor: the system builder
-    contrib = Contributor(
-        github_handle="4444J99",
-        name="4444J99",
-        organs_active=["I", "II", "III", "IV", "V", "VI", "VII"],
-        first_contribution_date=date(2026, 2, 9),
-    )
-    session.add(contrib)
-    session.flush()
+    """Seed community events and contributors with UPSERT on github_handle."""
+    # Upsert contributor
+    existing_contrib = session.execute(
+        text("SELECT id FROM community.contributors WHERE github_handle = :gh"),
+        {"gh": "4444J99"},
+    ).scalar_one_or_none()
 
-    # Key contributions
+    if existing_contrib:
+        contrib_id = existing_contrib
+    else:
+        contrib = Contributor(
+            github_handle="4444J99",
+            name="4444J99",
+            organs_active=["I", "II", "III", "IV", "V", "VI", "VII"],
+            first_contribution_date=date(2026, 2, 9),
+        )
+        session.add(contrib)
+        session.flush()
+        contrib_id = contrib.id
+
+    # Upsert contributions (by repo+type)
     contributions = [
         ("organvm-iv-taxis/orchestration-start-here", "code", "System architecture and orchestration"),
         ("organvm-v-logos/public-process", "essay", "10 meta-system essays (~40K words)"),
@@ -280,63 +310,49 @@ def seed_community(session: Session) -> None:
         ("organvm-vi-koinonia/reading-group-curriculum", "code", "Reading group curriculum system"),
     ]
     for repo, ctype, desc in contributions:
-        session.add(
-            Contribution(
-                contributor_id=contrib.id,
-                repo=repo,
-                type=ctype,
-                url=f"https://github.com/{repo}",
-                date=date(2026, 2, 17),
+        existing = session.execute(
+            text("SELECT id FROM community.contributions WHERE contributor_id = :cid AND repo = :r AND type = :t"),
+            {"cid": contrib_id, "r": repo, "t": ctype},
+        ).scalar_one_or_none()
+        if not existing:
+            session.add(Contribution(
+                contributor_id=contrib_id, repo=repo, type=ctype,
+                url=f"https://github.com/{repo}", date=date(2026, 2, 17),
                 description=desc,
-            )
-        )
+            ))
 
-    # Community events
-    events = [
-        Event(
-            type="salon",
-            title="Recursive Systems as Creative Practice",
-            date=date(2026, 2, 20),
-            description="Deep dive into self-referential structures as creative acts",
-            format="deep_dive",
-            capacity=8,
-            status="scheduled",
-        ),
-        Event(
-            type="salon",
-            title="The AI-Conductor Model: Human Direction, Machine Volume",
-            date=date(2026, 2, 27),
-            description="Socratic dialogue on the conductor metaphor for AI-assisted creation",
-            format="socratic_dialogue",
-            capacity=8,
-            status="scheduled",
-        ),
-        Event(
-            type="reading_group",
-            title="Foundations of Recursive Systems — Week 1",
-            date=date(2026, 3, 3),
-            description="Reading group launch: Strange Loops and Tangled Hierarchies",
-            format="discussion",
-            capacity=12,
-            status="planned",
-        ),
+    # Upsert events (by title)
+    events_data = [
+        ("salon", "Recursive Systems as Creative Practice", date(2026, 2, 20),
+         "Deep dive into self-referential structures as creative acts", "deep_dive", 8, "scheduled"),
+        ("salon", "The AI-Conductor Model: Human Direction, Machine Volume", date(2026, 2, 27),
+         "Socratic dialogue on the conductor metaphor for AI-assisted creation", "socratic_dialogue", 8, "scheduled"),
+        ("reading_group", "Foundations of Recursive Systems — Week 1", date(2026, 3, 3),
+         "Reading group launch: Strange Loops and Tangled Hierarchies", "discussion", 12, "planned"),
     ]
-    for e in events:
-        session.add(e)
+    for etype, title, edate, desc, fmt, cap, status in events_data:
+        existing = session.execute(
+            text("SELECT id FROM community.events WHERE title = :t"),
+            {"t": title},
+        ).scalar_one_or_none()
+        if not existing:
+            session.add(Event(
+                type=etype, title=title, date=edate,
+                description=desc, format=fmt, capacity=cap, status=status,
+            ))
 
     session.commit()
-    print(f"  Community: 1 contributor, {len(contributions)} contributions, {len(events)} events.")
+    print("  Community: upserted contributor, contributions, and events.")
 
 
 def main() -> None:
-    print("ORGAN-VI Koinonia Database Seeder")
+    print("ORGAN-VI Koinonia Database Seeder (UPSERT mode)")
     print("=" * 50)
 
     engine = get_engine()
     print(f"Connected to: {engine.url.host}")
 
     with Session(engine) as session:
-        clear_tables(session)
         slug_map = seed_taxonomy(session)
         salon_ids = seed_salons(session)
         entry_map = seed_reading_entries(session)
@@ -344,7 +360,7 @@ def main() -> None:
         seed_community(session)
 
     print("=" * 50)
-    print("Seeding complete!")
+    print("Seeding complete (idempotent UPSERT)!")
     print(f"  Taxonomy nodes: {len(slug_map)}")
     print(f"  Salon sessions: {len(salon_ids)}")
     print(f"  Reading entries: {len(entry_map)}")

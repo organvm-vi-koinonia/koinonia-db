@@ -11,6 +11,7 @@ from koinonia_db.models.reading import (
     Guide,
 )
 from koinonia_db.models.community import Event, Contributor, Contribution
+from koinonia_db.models.syllabus import LearnerProfileRow, LearningPathRow, LearningModuleRow
 
 __all__ = [
     "Base",
@@ -27,4 +28,7 @@ __all__ = [
     "Event",
     "Contributor",
     "Contribution",
+    "LearnerProfileRow",
+    "LearningPathRow",
+    "LearningModuleRow",
 ]
