@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-02-24
+
+### Added
+- `data_export` module — generates `data/schema-manifest.json` from ORM model introspection and seed file inventory
+- `koinonia-data-export` CLI entry point
+- 8 new tests in `tests/test_data_export.py`
+
 ## [0.4.0] - 2026-02-17
 
 ### Added

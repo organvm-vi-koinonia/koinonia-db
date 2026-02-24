@@ -1,0 +1,801 @@
+{
+  "generated_at": "2026-02-24T12:09:26.109402+00:00",
+  "package_version": "0.5.0",
+  "model_count": 16,
+  "models": [
+    "SalonSessionRow",
+    "Participant",
+    "Segment",
+    "TaxonomyNodeRow",
+    "Curriculum",
+    "ReadingSessionRow",
+    "Entry",
+    "SessionEntry",
+    "DiscussionQuestion",
+    "Guide",
+    "Event",
+    "Contributor",
+    "Contribution",
+    "LearnerProfileRow",
+    "LearningPathRow",
+    "LearningModuleRow"
+  ],
+  "model_details": [
+    {
+      "class_name": "SalonSessionRow",
+      "table_name": "sessions",
+      "schema": "salons",
+      "column_count": 9,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "title",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "date",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "format",
+          "type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "facilitator",
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "recording_url",
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "notes",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "organ_tags",
+          "type": "ARRAY",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false
+        }
+      ]
+    },
+    {
+      "class_name": "Participant",
+      "table_name": "participants",
+      "schema": "salons",
+      "column_count": 5,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "session_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "name",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "role",
+          "type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "consent_given",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "primary_key": false
+        }
+      ]
+    },
+    {
+      "class_name": "Segment",
+      "table_name": "segments",
+      "schema": "salons",
+      "column_count": 7,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "session_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "speaker",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "text",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "start_seconds",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "end_seconds",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "confidence",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false
+        }
+      ]
+    },
+    {
+      "class_name": "TaxonomyNodeRow",
+      "table_name": "taxonomy_nodes",
+      "schema": "salons",
+      "column_count": 6,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "slug",
+          "type": "VARCHAR(100)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "label",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "parent_id",
+          "type": "INTEGER",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "description",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "organ_id",
+          "type": "INTEGER",
+          "nullable": true,
+          "primary_key": false
+        }
+      ]
+    },
+    {
+      "class_name": "Curriculum",
+      "table_name": "curricula",
+      "schema": "reading",
+      "column_count": 7,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "title",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "theme",
+          "type": "VARCHAR(100)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "organ_focus",
+          "type": "VARCHAR(50)",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "duration_weeks",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "description",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false
+        }
+      ]
+    },
+    {
+      "class_name": "ReadingSessionRow",
+      "table_name": "sessions",
+      "schema": "reading",
+      "column_count": 7,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "curriculum_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "week",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "title",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "duration_minutes",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "completed",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "date_scheduled",
+          "type": "DATE",
+          "nullable": true,
+          "primary_key": false
+        }
+      ]
+    },
+    {
+      "class_name": "Entry",
+      "table_name": "entries",
+      "schema": "reading",
+      "column_count": 8,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "title",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "author",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "source_type",
+          "type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "url",
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "pages",
+          "type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "difficulty",
+          "type": "VARCHAR(20)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "organ_tags",
+          "type": "ARRAY",
+          "nullable": true,
+          "primary_key": false
+        }
+      ]
+    },
+    {
+      "class_name": "SessionEntry",
+      "table_name": "session_entries",
+      "schema": "reading",
+      "column_count": 2,
+      "columns": [
+        {
+          "name": "session_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "entry_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": true
+        }
+      ]
+    },
+    {
+      "class_name": "DiscussionQuestion",
+      "table_name": "discussion_questions",
+      "schema": "reading",
+      "column_count": 4,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "session_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "question_text",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "category",
+          "type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false
+        }
+      ]
+    },
+    {
+      "class_name": "Guide",
+      "table_name": "guides",
+      "schema": "reading",
+      "column_count": 6,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "session_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "opening_questions",
+          "type": "ARRAY",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "deep_dive_questions",
+          "type": "ARRAY",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "activities",
+          "type": "ARRAY",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "closing_reflection",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        }
+      ]
+    },
+    {
+      "class_name": "Event",
+      "table_name": "events",
+      "schema": "community",
+      "column_count": 9,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "type",
+          "type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "title",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "date",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "description",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "format",
+          "type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "capacity",
+          "type": "INTEGER",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "registration_url",
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(30)",
+          "nullable": false,
+          "primary_key": false
+        }
+      ]
+    },
+    {
+      "class_name": "Contributor",
+      "table_name": "contributors",
+      "schema": "community",
+      "column_count": 5,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "github_handle",
+          "type": "VARCHAR(100)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "name",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "organs_active",
+          "type": "ARRAY",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "first_contribution_date",
+          "type": "DATE",
+          "nullable": false,
+          "primary_key": false
+        }
+      ]
+    },
+    {
+      "class_name": "Contribution",
+      "table_name": "contributions",
+      "schema": "community",
+      "column_count": 7,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "contributor_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "repo",
+          "type": "VARCHAR(200)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "type",
+          "type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "url",
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "date",
+          "type": "DATE",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "description",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        }
+      ]
+    },
+    {
+      "class_name": "LearnerProfileRow",
+      "table_name": "learner_profiles",
+      "schema": "syllabus",
+      "column_count": 6,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "name",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "organs_of_interest",
+          "type": "ARRAY",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "level",
+          "type": "VARCHAR(20)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "completed_modules",
+          "type": "ARRAY",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false
+        }
+      ]
+    },
+    {
+      "class_name": "LearningPathRow",
+      "table_name": "learning_paths",
+      "schema": "syllabus",
+      "column_count": 6,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "path_id",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "title",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "learner_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "total_hours",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false
+        }
+      ]
+    },
+    {
+      "class_name": "LearningModuleRow",
+      "table_name": "learning_modules",
+      "schema": "syllabus",
+      "column_count": 10,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "path_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "module_id",
+          "type": "VARCHAR(100)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "title",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "organ",
+          "type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "difficulty",
+          "type": "VARCHAR(20)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "readings",
+          "type": "ARRAY",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "questions",
+          "type": "ARRAY",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "estimated_hours",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "seq",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        }
+      ]
+    }
+  ],
+  "schemas": [
+    "community",
+    "reading",
+    "salons",
+    "syllabus"
+  ],
+  "seed_files": {
+    "community.json": {
+      "entries": 3
+    },
+    "curricula.json": {
+      "entries": 3
+    },
+    "reading_lists.json": {
+      "entries": 39
+    },
+    "sample_sessions.json": {
+      "entries": 2
+    },
+    "taxonomy.json": {
+      "entries": 8
+    }
+  },
+  "total_seed_entries": 55
+}
