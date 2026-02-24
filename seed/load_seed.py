@@ -217,6 +217,88 @@ def seed_curricula(cur: psycopg.Cursor, entry_key_map: dict[str, int]) -> int:
     return count
 
 
+def seed_community(cur: psycopg.Cursor) -> int:
+    """Seed community events, contributors, and contributions from community.json."""
+    data = load_json("community.json")
+    count = 0
+
+    # Events — idempotent on title+date
+    for event in data["events"]:
+        cur.execute(
+            "SELECT id FROM community.events WHERE title = %s AND date = %s",
+            (event["title"], event["date"]),
+        )
+        if cur.fetchone():
+            count += 1
+            continue
+        cur.execute(
+            """INSERT INTO community.events
+               (type, title, date, description, format, capacity, status)
+               VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+            (
+                event["type"],
+                event["title"],
+                event["date"],
+                event.get("description", ""),
+                event.get("format", "virtual"),
+                event.get("capacity"),
+                event.get("status", "planned"),
+            ),
+        )
+        count += 1
+
+    # Contributors + contributions — idempotent on github_handle
+    for contributor in data["contributors"]:
+        cur.execute(
+            "SELECT id FROM community.contributors WHERE github_handle = %s",
+            (contributor["github_handle"],),
+        )
+        existing = cur.fetchone()
+        if existing:
+            contributor_id = existing[0]
+        else:
+            cur.execute(
+                """INSERT INTO community.contributors
+                   (github_handle, name, organs_active, first_contribution_date)
+                   VALUES (%s, %s, %s, %s)
+                   RETURNING id""",
+                (
+                    contributor["github_handle"],
+                    contributor["name"],
+                    contributor.get("organs_active", []),
+                    contributor.get("first_contribution_date"),
+                ),
+            )
+            contributor_id = cur.fetchone()[0]
+        count += 1
+
+        for c in contributor.get("contributions", []):
+            # Idempotent on contributor_id+repo+date
+            cur.execute(
+                """SELECT id FROM community.contributions
+                   WHERE contributor_id = %s AND repo = %s AND date = %s""",
+                (contributor_id, c["repo"], c["date"]),
+            )
+            if cur.fetchone():
+                count += 1
+                continue
+            cur.execute(
+                """INSERT INTO community.contributions
+                   (contributor_id, repo, type, date, description)
+                   VALUES (%s, %s, %s, %s, %s)""",
+                (
+                    contributor_id,
+                    c["repo"],
+                    c["type"],
+                    c["date"],
+                    c.get("description", ""),
+                ),
+            )
+            count += 1
+
+    return count
+
+
 def _table_count(cur: psycopg.Cursor, table: str) -> int:
     cur.execute(f"SELECT count(*) FROM {table}")
     return cur.fetchone()[0]
@@ -245,9 +327,16 @@ def main() -> None:
             curr_count = seed_curricula(cur, entry_map)
             print(f"  -> {curr_count} curriculum records")
 
+            print("Loading community data...")
+            community_count = seed_community(cur)
+            print(f"  -> {community_count} community records")
+            print(f"     events: {_table_count(cur, 'community.events')}")
+            print(f"     contributors: {_table_count(cur, 'community.contributors')}")
+            print(f"     contributions: {_table_count(cur, 'community.contributions')}")
+
         conn.commit()
 
-    total = tax_count + session_count + len(entry_map) + curr_count
+    total = tax_count + session_count + len(entry_map) + curr_count + community_count
     print(f"\nSeed complete: {total} total records processed.")
 
 
