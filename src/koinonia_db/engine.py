@@ -11,16 +11,15 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
+from koinonia_db.config import require_database_url
+
 
 def get_database_url() -> str:
-    """Read DATABASE_URL from environment, converting to async driver if needed."""
-    url = os.environ.get("DATABASE_URL", "")
-    if not url:
-        raise RuntimeError("DATABASE_URL environment variable is not set")
-    # Convert postgresql:// to postgresql+psycopg:// for async
-    if url.startswith("postgresql://") and "+psycopg" not in url:
-        url = url.replace("postgresql://", "postgresql+psycopg://", 1)
-    return url
+    """Read DATABASE_URL from environment, converting to async driver if needed.
+
+    Delegates to koinonia_db.config.require_database_url().
+    """
+    return require_database_url()
 
 
 _engine: AsyncEngine | None = None

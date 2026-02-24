@@ -11,22 +11,10 @@ from uuid import uuid4
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from koinonia_db.constants import ORGAN_MAP, DIFFICULTY_ORDER
 from koinonia_db.models.salon import TaxonomyNodeRow
 from koinonia_db.models.reading import Entry
 from koinonia_db.models.syllabus import LearnerProfileRow, LearningPathRow, LearningModuleRow
-
-ORGAN_MAP = {
-    "I": "i-theoria",
-    "II": "ii-poiesis",
-    "III": "iii-ergon",
-    "IV": "iv-taxis",
-    "V": "v-logos",
-    "VI": "vi-koinonia",
-    "VII": "vii-kerygma",
-    "VIII": "viii-meta",
-}
-
-DIFFICULTY_ORDER = {"beginner": 0, "intermediate": 1, "advanced": 2}
 
 
 async def generate_learning_path(

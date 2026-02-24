@@ -61,6 +61,16 @@ def seed_sessions(cur: psycopg.Cursor) -> int:
     data = load_json("sample_sessions.json")
     count = 0
     for session in data["sessions"]:
+        # Use title+date as a natural key for idempotency
+        cur.execute(
+            "SELECT id FROM salons.sessions WHERE title = %s AND date = %s",
+            (session["title"], session["date"]),
+        )
+        existing = cur.fetchone()
+        if existing:
+            count += 1
+            continue
+
         cur.execute(
             """INSERT INTO salons.sessions (title, date, format, facilitator, notes, organ_tags)
                VALUES (%s, %s, %s, %s, %s, %s)
@@ -104,10 +114,20 @@ def seed_sessions(cur: psycopg.Cursor) -> int:
 
 
 def seed_reading_entries(cur: psycopg.Cursor) -> dict[str, int]:
-    """Load reading entries and return a key->id map."""
+    """Load reading entries and return a key->id map. Skips duplicates by title+author."""
     data = load_json("reading_lists.json")
     key_map: dict[str, int] = {}
     for entry in data["entries"]:
+        # Check if already exists (title+author as natural key)
+        cur.execute(
+            "SELECT id FROM reading.entries WHERE title = %s AND author = %s",
+            (entry["title"], entry["author"]),
+        )
+        existing = cur.fetchone()
+        if existing:
+            key_map[entry["key"]] = existing[0]
+            continue
+
         cur.execute(
             """INSERT INTO reading.entries (title, author, source_type, url, pages, difficulty, organ_tags)
                VALUES (%s, %s, %s, %s, %s, %s, %s)
@@ -130,6 +150,16 @@ def seed_curricula(cur: psycopg.Cursor, entry_key_map: dict[str, int]) -> int:
     data = load_json("curricula.json")
     count = 0
     for c in data["curricula"]:
+        # Skip if curriculum already exists (title as natural key)
+        cur.execute(
+            "SELECT id FROM reading.curricula WHERE title = %s",
+            (c["title"],),
+        )
+        existing = cur.fetchone()
+        if existing:
+            count += 1
+            continue
+
         cur.execute(
             """INSERT INTO reading.curricula (title, theme, organ_focus, duration_weeks, description)
                VALUES (%s, %s, %s, %s, %s)
@@ -187,27 +217,25 @@ def seed_curricula(cur: psycopg.Cursor, entry_key_map: dict[str, int]) -> int:
     return count
 
 
+def _table_count(cur: psycopg.Cursor, table: str) -> int:
+    cur.execute(f"SELECT count(*) FROM {table}")
+    return cur.fetchone()[0]
+
+
 def main() -> None:
     url = get_url()
-    print(f"Connecting to database...")
+    print("Connecting to database...")
 
     with psycopg.connect(url) as conn:
         with conn.cursor() as cur:
-            # Check if already seeded
-            cur.execute("SELECT count(*) FROM salons.taxonomy_nodes")
-            existing = cur.fetchone()[0]
-            if existing > 0:
-                print(f"Database already has {existing} taxonomy nodes. Skipping seed.")
-                print("To re-seed, truncate the tables first.")
-                return
-
+            # Seed each table independently — partial runs can resume safely
             print("Loading taxonomy...")
             tax_count = seed_taxonomy(cur)
-            print(f"  -> {tax_count} taxonomy nodes")
+            print(f"  -> {tax_count} taxonomy nodes (total: {_table_count(cur, 'salons.taxonomy_nodes')})")
 
             print("Loading salon sessions...")
             session_count = seed_sessions(cur)
-            print(f"  -> {session_count} session records (sessions + participants + segments)")
+            print(f"  -> {session_count} session records")
 
             print("Loading reading entries...")
             entry_map = seed_reading_entries(cur)
@@ -215,12 +243,12 @@ def main() -> None:
 
             print("Loading curricula...")
             curr_count = seed_curricula(cur, entry_map)
-            print(f"  -> {curr_count} curriculum records (curricula + sessions + questions + guides)")
+            print(f"  -> {curr_count} curriculum records")
 
         conn.commit()
 
     total = tax_count + session_count + len(entry_map) + curr_count
-    print(f"\nSeed complete: {total} total records loaded.")
+    print(f"\nSeed complete: {total} total records processed.")
 
 
 if __name__ == "__main__":
