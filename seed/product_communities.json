@@ -1,0 +1,328 @@
+{
+  "product_events": [
+    {
+      "type": "product_launch",
+      "title": "UCC-MCA Intelligence Platform \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for the flagship UCC-MCA Intelligence Platform. AI-powered lead generation for Merchant Cash Advance providers through UCC filing analysis.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "Inverted Interview CV \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for Inverted Interview CV. A hexagonal-architecture CV system where the job interviews you.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "Styx Behavioral Market \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for Styx, the peer-audited behavioral market with on-chain accountability and Stripe integration.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "Classroom RPG Aetheria \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for Classroom RPG Aetheria. Fantasy-themed classroom gamification across four worlds.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "DogTale Daily \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for DogTale Daily, the daily dog and cat calendar app with journaling and social features.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "Legion Command Center \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for Legion Command Center. Gamified fitness coaching with 3D command center interface.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "Perpetual Futures Exchange \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for the Perpetual Futures Exchange UI for decentralized derivatives trading.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "The Actual News \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for The Actual News, a news platform built on transparency and factual reporting.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "Mirror Mirror \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for Mirror Mirror, a web application for personal reflection.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "The Invisible Ledger \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for The Invisible Ledger, revealing the hidden flows of financial data.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "Sovereign Real Estate \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for the Sovereign Real Estate luxury property platform.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "Happy Hour Discovery \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for Happy Hour Discovery, the social platform for finding local deals.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "Social Network \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for the swipe-based social connections platform.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "TurfSynth AR \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for TurfSynth AR, the location-based augmented reality territorial game.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "ChatGPT Exporter \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for ChatGPT Exporter, a browser extension for exporting conversation history.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "GrindrPlus \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for GrindrPlus, an enhanced Grindr experience via Xposed framework.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "4K Livestream Pipeline \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for the multi-camera 4K livestream pipeline with Dante audio integration.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "Universal Mail \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for Universal Mail, multi-provider email automation for scalable outreach.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "Clipboard Memory \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for Clipboard Memory, a local clipboard memory tool with full-text and semantic search.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "AI Tab Manager \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for AI Tab Manager, AI-powered tab and bookmark management with semantic clustering.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "Hydra TCG Platform \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for the Hydra TCG Platform, a social trading card game marketplace.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "Hokage Chess \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for Hokage Chess, a chess variant with ninja-inspired mechanics.",
+      "format": "virtual",
+      "status": "planned"
+    },
+    {
+      "type": "product_launch",
+      "title": "Circular Apparel \u2014 Community Launch",
+      "date": "2026-03-01T00:00:00Z",
+      "description": "Community launch for Circular Apparel, a sustainable fashion subscription platform.",
+      "format": "virtual",
+      "status": "planned"
+    }
+  ],
+  "product_taxonomy": [
+    {
+      "label": "UCC-MCA Intelligence Platform",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-public-record-data-scrapper",
+      "description": "Community discussions about the UCC-MCA Intelligence Platform"
+    },
+    {
+      "label": "Inverted Interview CV",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-life-my-midst-in",
+      "description": "Community discussions about the Inverted Interview CV system"
+    },
+    {
+      "label": "Styx Behavioral Market",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-peer-audited-behavioral-blockchain",
+      "description": "Community discussions about the Styx peer-audited behavioral market"
+    },
+    {
+      "label": "Classroom RPG Aetheria",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-classroom-rpg-aetheria",
+      "description": "Community discussions about Classroom RPG Aetheria"
+    },
+    {
+      "label": "DogTale Daily",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-fetch-familiar-friends",
+      "description": "Community discussions about the DogTale Daily pet calendar app"
+    },
+    {
+      "label": "Legion Command Center",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-gamified-coach-interface",
+      "description": "Community discussions about the Legion Command Center fitness app"
+    },
+    {
+      "label": "Perpetual Futures Exchange",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-trade-perpetual-future",
+      "description": "Community discussions about the Perpetual Futures Exchange"
+    },
+    {
+      "label": "The Actual News",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-the-actual-news",
+      "description": "Community discussions about The Actual News platform"
+    },
+    {
+      "label": "Mirror Mirror",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-mirror-mirror",
+      "description": "Community discussions about Mirror Mirror"
+    },
+    {
+      "label": "The Invisible Ledger",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-the-invisible-ledger",
+      "description": "Community discussions about The Invisible Ledger"
+    },
+    {
+      "label": "Sovereign Real Estate",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-sovereign-ecosystem-real-estate-luxury",
+      "description": "Community discussions about the Sovereign Real Estate platform"
+    },
+    {
+      "label": "Happy Hour Discovery",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-search-local-happy-hour",
+      "description": "Community discussions about Happy Hour Discovery"
+    },
+    {
+      "label": "Social Network",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-select-or-left-or-right-or",
+      "description": "Community discussions about the social connections platform"
+    },
+    {
+      "label": "TurfSynth AR",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-my-block-warfare",
+      "description": "Community discussions about the TurfSynth AR game"
+    },
+    {
+      "label": "ChatGPT Exporter",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-a-i-chat-exporter",
+      "description": "Community discussions about the ChatGPT Exporter extension"
+    },
+    {
+      "label": "GrindrPlus",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-anon-hookup-now",
+      "description": "Community discussions about GrindrPlus"
+    },
+    {
+      "label": "4K Livestream Pipeline",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-multi-camera-livestream-framework",
+      "description": "Community discussions about the 4K Livestream Pipeline"
+    },
+    {
+      "label": "Universal Mail",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-universal-mail-automation",
+      "description": "Community discussions about Universal Mail automation"
+    },
+    {
+      "label": "Clipboard Memory",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-my-father-mother",
+      "description": "Community discussions about the Clipboard Memory tool"
+    },
+    {
+      "label": "AI Tab Manager",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-tab-bookmark-manager",
+      "description": "Community discussions about the AI Tab Manager"
+    },
+    {
+      "label": "Hydra TCG Platform",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-card-trade-social",
+      "description": "Community discussions about the Hydra TCG Platform"
+    },
+    {
+      "label": "Hokage Chess",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-hokage-chess",
+      "description": "Community discussions about Hokage Chess"
+    },
+    {
+      "label": "Circular Apparel",
+      "parent": "ORGAN-III Products",
+      "slug": "iii-product-your-fit-tailored",
+      "description": "Community discussions about Circular Apparel"
+    }
+  ]
+}

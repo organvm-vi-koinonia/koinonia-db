@@ -299,6 +299,66 @@ def seed_community(cur: psycopg.Cursor) -> int:
     return count
 
 
+def seed_product_communities(cur: psycopg.Cursor) -> int:
+    """Seed product community events and taxonomy nodes from product_communities.json."""
+    path = SEED_DIR / "product_communities.json"
+    if not path.exists():
+        return 0
+    data = json.loads(path.read_text())
+    count = 0
+
+    # Product events — idempotent on title+date
+    for event in data["product_events"]:
+        cur.execute(
+            "SELECT id FROM community.events WHERE title = %s AND date = %s",
+            (event["title"], event["date"]),
+        )
+        if cur.fetchone():
+            count += 1
+            continue
+        cur.execute(
+            """INSERT INTO community.events
+               (type, title, date, description, format, status)
+               VALUES (%s, %s, %s, %s, %s, %s)""",
+            (
+                event["type"],
+                event["title"],
+                event["date"],
+                event.get("description", ""),
+                event.get("format", "virtual"),
+                event.get("status", "planned"),
+            ),
+        )
+        count += 1
+
+    # Product taxonomy — idempotent on slug
+    # First ensure the parent node exists
+    cur.execute(
+        """INSERT INTO salons.taxonomy_nodes (slug, label, organ_id, description)
+           VALUES (%s, %s, %s, %s)
+           ON CONFLICT (slug) DO NOTHING
+           RETURNING id""",
+        ("iii-products", "ORGAN-III Products", 3, "Product-specific community discussion topics"),
+    )
+    row = cur.fetchone()
+    if row is None:
+        cur.execute("SELECT id FROM salons.taxonomy_nodes WHERE slug = %s", ("iii-products",))
+        row = cur.fetchone()
+    parent_id = row[0]
+    count += 1
+
+    for node in data["product_taxonomy"]:
+        cur.execute(
+            """INSERT INTO salons.taxonomy_nodes (slug, label, parent_id, description)
+               VALUES (%s, %s, %s, %s)
+               ON CONFLICT (slug) DO NOTHING""",
+            (node["slug"], node["label"], parent_id, node.get("description", "")),
+        )
+        count += 1
+
+    return count
+
+
 def _table_count(cur: psycopg.Cursor, table: str) -> int:
     cur.execute(f"SELECT count(*) FROM {table}")
     return cur.fetchone()[0]
@@ -334,9 +394,13 @@ def main() -> None:
             print(f"     contributors: {_table_count(cur, 'community.contributors')}")
             print(f"     contributions: {_table_count(cur, 'community.contributions')}")
 
+            print("Loading product communities...")
+            product_count = seed_product_communities(cur)
+            print(f"  -> {product_count} product community records")
+
         conn.commit()
 
-    total = tax_count + session_count + len(entry_map) + curr_count + community_count
+    total = tax_count + session_count + len(entry_map) + curr_count + community_count + product_count
     print(f"\nSeed complete: {total} total records processed.")
 
 
