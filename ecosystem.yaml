@@ -1,8 +1,18 @@
 schema_version: '1.0'
 repo: koinonia-db
 organ: VI
-display_name: Shared SQLAlchemy 2.0 models, Alembic migrations, PostgreSQL seed data
-  for all ORGAN-VI schemas (salons, reading, community, syllabus)
+display_name: "Shared SQLAlchemy 2.0 models, Alembic migrations, PostgreSQL seed data for all ORGAN-VI schemas"
+
 delivery:
-- platform: web_app
+- platform: python_library
+  status: live
+  priority: critical
+  notes: "Shared database layer for all ORGAN-VI services"
+  next_action: "Maintain schema alignment with community-hub and other consumers"
+
+content:
+- platform: docs_site
   status: not_started
+  priority: high
+  notes: "Schema reference, migration guide, seed data format"
+  next_action: "Document all models and migration procedures"
