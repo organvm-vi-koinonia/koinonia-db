@@ -1,0 +1,25 @@
+schema_version: '1.0'
+repo: koinonia-db
+organ: ORGAN-VI
+mirrors:
+  technical:
+  - project: sqlalchemy/sqlalchemy
+    platform: github
+    relevance: 'Python dependency: sqlalchemy'
+    engagement:
+    - watch
+    tags:
+    - auto-discovered
+    - python-dep
+  - project: sqlalchemy/alembic
+    platform: github
+    relevance: 'Python dependency: alembic'
+    engagement:
+    - watch
+    tags:
+    - auto-discovered
+    - python-dep
+  parallel: []
+  kinship: []
+ledger: ~/.organvm/network/ledger.jsonl
+last_scanned: '2026-03-20T11:55:26.347815+00:00'
